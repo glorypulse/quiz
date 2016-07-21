@@ -69,11 +69,13 @@ public class Knapsack_B {
 
         int value = -1; // メモ化するため、値として持つ
         
-        if (i == this.N) { value = 0}; // 品物はもうない
-        else {
+        if (i == this.N) { b// 品物はもうない
+            value = 0;
+        } else {
             Item citem = items.get(i);
-            if (citem.w > rw) { value = getValue(i + 1, rw) }; // この品物は入らない
-            else {
+            if (citem.w > rw) { // この品物は入らない
+                value = getValue(i + 1, rw);
+            } else {
                 value = Math.max(getValue(i+1, rw-citem.w) + citem.v,
                                  getValue(i+1, rw));
             }
@@ -87,18 +89,19 @@ public class Knapsack_B {
 
 }
 
-class Item {
-    int w;
-    int v;
-    Item (int w, int v) {
-        this.w = w;
-        this.v = v;
-    }
+// Knapsack_A.javaがある前提でコメントアウト
+// class Item {
+//     int w;
+//     int v;
+//     Item (int w, int v) {
+//         this.w = w;
+//         this.v = v;
+//     }
 
-    // for debug
-    @Override
-    public String toString() {
-        return (String.valueOf(w) + "," + String.valueOf(v));
-    }
-}
+//     // for debug
+//     @Override
+//     public String toString() {
+//         return (String.valueOf(w) + "," + String.valueOf(v));
+//     }
+// }
 

@@ -42,7 +42,7 @@ public class Knapsack_C {
         Knapsack_C ks = new Knapsack_C();
         
         ks.N = sc.nextInt();
-        ks.initItems();
+        ks.initItem();
         for (int i = 0; i < ks.N; i++) {
             int w = sc.nextInt();
             int v = sc.nextInt();
@@ -51,58 +51,44 @@ public class Knapsack_C {
         ks.W = sc.nextInt();
         ks.initMemo();
 
-        int ans = ks.getValue(0, ks.W);
+        int ans = ks.getValue();
         pw.println("Answer:" + String.valueOf(ans));
 
         pw.flush();
         pw.close();
     }
 
-    int solve() {
-        for (int i = 0; i < this.N; i++) {
-            for (int w = 0; w < this.W; w++) {
-                //TODO
+    int getValue() {
+        for (int i = this.N; i >= 0; i--) {
+            for (int w = 0; w <= this.W; w++) {
+                if (i==this.N) {
+                    memo[i][w] = 0; // 初期化
+                } else if (items[i].w > w) {
+                    memo[i][w] = memo[i+1][w];
+                } else {
+                    memo[i][w] = Math.max(memo[i+1][w-items[i].w] + items[i].v,
+                                          memo[i+1][w]);
+                }
             }
         }
-    }
-    // i番目の品物、残りの重さrw
-    int getValue(int i, int rw) {
-
-        // 最初にメモされているか確認する
-        if (memo[i][rw] >=0 ) {
-            return memo[i][rw];
-        }
-
-
-        int value = -1; // メモ化するため、値として持つ
-        
-        if (i == this.N) { value = 0}; // 品物はもうない
-        else if (items[i].w > rw) { value = getValue(i + 1, rw) }; // この品物は入らない
-        else {
-            value = Math.max(getValue(i+1, rw-items[i].w) + items[i].v,
-                             getValue(i+1, rw));
-        }
-
-        memo[i][rw] = value;
-        return value;
-
-
+        return memo[0][this.W];
     }
 
 }
 
-class Item {
-    int w;
-    int v;
-    Item (int w, int v) {
-        this.w = w;
-        this.v = v;
-    }
+// Knapsack_A.javaがある前提でコメントアウト
+// class Item {
+//     int w;
+//     int v;
+//     Item (int w, int v) {
+//         this.w = w;
+//         this.v = v;
+//     }
 
-    // for debug
-    @Override
-    public String toString() {
-        return (String.valueOf(w) + "," + String.valueOf(v));
-    }
-}
+//     // for debug
+//     @Override
+//     public String toString() {
+//         return (String.valueOf(w) + "," + String.valueOf(v));
+//     }
+// }
 
