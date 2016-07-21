@@ -15,28 +15,43 @@ public class Knapsack_A {
 5
     */
 
+    int N = 0;
+    ArrayList<Item> items;
+    int W = 0;
+
+    Knapsack_A() {
+        items = new ArrayList<Item>();
+    }
+
     public static void main(String args[]) {
         Scanner sc = new Scanner(System.in);
         PrintWriter pw = new PrintWriter(System.out);
-            
-        int N = sc.nextInt();
-        ArrayList<Item> items = new ArrayList<Item>();
-        for (int i = 0; i < N; i++) {
+
+        Knapsack_A ks = new Knapsack_A();
+        
+        ks.N = sc.nextInt();
+        for (int i = 0; i < ks.N; i++) {
             int w = sc.nextInt();
             int v = sc.nextInt();
-            items.add(new Item(w,v));
+            ks.items.add(new Item(w,v));
         }
-        int W = sc.nextInt();
+        ks.W = sc.nextInt();
 
-        for(Item item: items) {
-            pw.println(item.toString());
-        }
-
+        int ans = ks.getValue(0, 0);
+        pw.println("Answer:" + String.valueOf(ans));
 
         pw.flush();
         pw.close();
-            
-        
+    }
+
+    // i番目の品物、現在の重さcw
+    int getValue(int i, int cw) {
+        if (i == this.N) return 0; // 品物はもうない
+        else {
+            Item citem = items.get(i);
+        if (cw + citem.w > this.W) return getValue(i + 1, cw); // この品物は入らない
+        else return Math.max(citem.v + getValue(i + 1, cw+citem.w), getValue(i + 1, cw));
+        }
     }
 
 }
