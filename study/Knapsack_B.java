@@ -69,7 +69,7 @@ public class Knapsack_B {
 
         int value = -1; // メモ化するため、値として持つ
         
-        if (i == this.N) { b// 品物はもうない
+        if (i == this.N) { // 品物はもうない
             value = 0;
         } else {
             Item citem = items.get(i);
