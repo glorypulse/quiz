@@ -3,3 +3,7 @@
 target
 sample.txt
 sh.exe.stackdump
+
+# for GCJ
+gcj/**/*.in
+gcj/**/*.out
