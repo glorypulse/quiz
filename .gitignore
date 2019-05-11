@@ -4,6 +4,9 @@ target
 sample.txt
 sh.exe.stackdump
 
+# Java, Scala
+*.class
+
 # for GCJ
 gcj/**/*.in
 gcj/**/*.out
