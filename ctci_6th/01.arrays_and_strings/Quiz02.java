@@ -17,6 +17,7 @@ class Quiz02 {
      * O(AlogA + BlogB)
      */
     boolean checkPermutation(String str_a, String str_b) {
+        if (str_a.length() != str_b.length()) return false; // 違う長さの文字列の順列が等しくなることはない
         char[] sorted_a = str_a.toCharArray();
         Arrays.sort(sorted_a);
         char[] sorted_b = str_b.toCharArray();
