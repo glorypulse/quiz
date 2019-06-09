@@ -68,7 +68,30 @@ class SetOfStacks {
         int targetIndex = index % INNER_STACK_SIZE; // 0 origin
 
         int[] targetArray = arrays.get(targetStackNumber);
-        return targetArray[targetIndex];
+
+        int target = targetArray[targetIndex];
+
+        // popする処理
+        while (targetStackNumber <= stackNumber) {
+            // targetArrayを左に寄せる
+            for (int i = targetIndex; i < INNER_STACK_SIZE - 1; i ++) {
+                targetArray[i] = targetArray[i + 1];
+            }
+            targetArray[INNER_STACK_SIZE - 1] = INITIALIZE_VALUE;
+
+            if (targetStackNumber == stackNumber) break;
+
+            // 次のinner stackの最初の数をpopしたinner stackの最後に代入する
+            targetStackNumber ++;
+            int[] nextArray = arrays.get(targetStackNumber);
+            targetArray[INNER_STACK_SIZE - 1] = nextArray[0];
+
+            targetIndex = 0;
+            targetArray = nextArray;
+        }
+        this.index --;
+
+        return target;
     }
 
     private void initializeInnerStack() {
