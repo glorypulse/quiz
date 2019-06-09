@@ -61,6 +61,16 @@ class SetOfStacks {
         return stackNumber == 0 && index == 0;
     }
 
+    public int popAt(int index) {
+        int targetStackNumber = index / INNER_STACK_SIZE;
+        if (targetStackNumber > stackNumber) throw new IndexOutOfBoundsException();
+
+        int targetIndex = index % INNER_STACK_SIZE; // 0 origin
+
+        int[] targetArray = arrays.get(targetStackNumber);
+        return targetArray[targetIndex];
+    }
+
     private void initializeInnerStack() {
         current_array = new int[INNER_STACK_SIZE];
         // Arrays.fill(current_array, INITIALIZE_VALUE);
