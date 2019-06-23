@@ -28,6 +28,11 @@ class Solution {
         return found;
     }
 
+    // よりよさそうなのは、
+    // ３つのバイナリサーチ
+    // 1. ピークを求める
+    // 2. 山の左側を探索する
+    // 3. 山の右側を探索する
     private int binarySearchInMountainArray(int left, int right, int target, MountainArray mountainArr, int[] memoArr) {
         if (left >= right) return -1;
 
