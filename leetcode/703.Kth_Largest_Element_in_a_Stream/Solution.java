@@ -1,29 +1,27 @@
 import java.util.PriorityQueue;
 
 class KthLargest {
-    PriorityQueue<Integer> smallQueue;
     PriorityQueue<Integer> largeQueue;
+    int k;
 
 
     public KthLargest(int k, int[] nums) {
-        smallQueue = new PriorityQueue<>(Collections.reverseOrder());
         largeQueue = new PriorityQueue<>();
+        this.k = k;
         for (int num: nums) {
-            smallQueue.add(num);
+            largeQueue.add(num);
         }
-        for (int i = 0; i < k - 1; i ++) {
-            largeQueue.add(smallQueue.poll());
+        while (largeQueue.size() > k) {
+            largeQueue.poll();
         }
     }
 
     public int add(int val) {
-        if (smallQueue.isEmpty() || val > smallQueue.peek()) {
+        if (largeQueue.size() < k || val >= largeQueue.peek()) {
             largeQueue.add(val);
-            smallQueue.add(largeQueue.poll());
-        } else {
-            smallQueue.add(val);
+            if (largeQueue.size() > k) largeQueue.poll();
         }
-        return smallQueue.peek();
+        return largeQueue.peek();
     }
 }
 
