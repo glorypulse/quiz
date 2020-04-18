@@ -1,23 +1,37 @@
 class Solution {
     public int splitArray(int[] nums, int m) {
-        int[][] sumArray = int[m + 1][nums.length];
-        int sum = 0;
-        for (int i = 0; i < nums.length; i ++) {
-            sum += nums[i];
-            sumArray[0][i] = sum;
+        long sum = 0;
+        int max = Integer.MIN_VALUE;
+        for (int num: nums) {
+            sum += num;
+            max = Math.max(max, num);
         }
 
-        for (int j = 1; j < m; j ++) {
-            for (int i = j; i < nums.length; i ++) {
-                sum = 0;
-                for (int l = j; l < i; l ++) { // ??
-                    sum += nums[l];
-                }
-                Math.max(sumArray[j - 1][i - 1], sum);
+        long high = sum;
+        long low = max;
+        long mid = (low + high) / 2;
+        while (low <= high) {
+            mid = (low + high) / 2;
+            if (isPossible(nums, m, mid)) {
+                if (high == mid) return (int)mid;
+                high = mid;
+            } else {
+                low = mid + 1;
             }
         }
+        return (int)mid;
+    }
 
-        return minLargeSum(Integer.MIN_VALUE, 0, m, nums);
-
+    boolean isPossible(int[] nums, int m, long max) {
+        int k = 1;
+        long sum = 0;
+        for (int i = 0; i < nums.length; i ++) {
+            sum += nums[i];
+            if (sum > max) {
+                if (++k > m) return false;
+                sum = nums[i];
+            }
+        }
+        return true;
     }
 }
