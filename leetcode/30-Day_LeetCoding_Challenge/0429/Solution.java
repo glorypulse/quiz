@@ -30,23 +30,16 @@ class Solution {
 
     MaxSum calcMaxSum(TreeNode node) {
         if (node == null) {
-            return new MaxSum(Integer.MIN_VALUE, Integer.MIN_VALUE);
+            return new MaxSum(0, Integer.MIN_VALUE);
         }
 
         MaxSum rightSum = calcMaxSum(node.right);
         MaxSum leftSum = calcMaxSum(node.left);
 
-        int pathMax = node.val;
-        int treeMax = node.val;
-        if (rightSum.pathMax > 0) {
-            treeMax += rightSum.pathMax;
-            pathMax += rightSum.pathMax;
-        }
-        if (leftSum.pathMax > 0) {
-            treeMax += leftSum.pathMax;
-            pathMax = Math.max(pathMax, node.val + leftSum.pathMax);
-        }
+        int treeMax = node.val + rightSum.pathMax + leftSum.pathMax;
+        int pathMax = Math.max(node.val + rightSum.pathMax, node.val + leftSum.pathMax);
+
         treeMax = Math.max(treeMax, Math.max(rightSum.treeMax, leftSum.treeMax));
-        return new MaxSum(pathMax, treeMax);
+        return new MaxSum(Math.max(0, pathMax), treeMax);
     }
 }
