@@ -1,19 +1,32 @@
 import java.util.Stack;
 
 class StockSpanner {
-    Stack<int[]> stocks;
+    int[] stocks;
+    int[] spans;
+    int index;
 
     public StockSpanner() {
-        stocks = new Stack<int[]>();
+        stocks = new int[10000];
+        spans = new int[10000];
+        index = 0;
     }
 
     public int next(int price) {
-        int count = 1;
-        while(!stocks.isEmpty() && price >= stocks.peek()[0]) {
-            count += stocks.pop()[1];
+        int span = 1;
+        int i = index - 1;
+        while (i >= 0) {
+            if (stocks[i] <= price) {
+                span += spans[i];
+                i -= spans[i];
+            } else {
+                break;
+            }
         }
-        stocks.push(new int[] { price, count });
-        return count;
+        stocks[index] = price;
+        spans[index] = span;
+        index ++;
+
+        return span;
     }
 }
 
