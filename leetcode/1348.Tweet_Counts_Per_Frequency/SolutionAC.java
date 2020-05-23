@@ -28,11 +28,19 @@ class TweetCounts {
             return tweetList;
         }
 
-        int time = startTime;
-        while (time <= endTime) {
-            Set<Integer> currentSet = userRecords.subSet(time, Math.min(time + freqSeconds, endTime + 1));
-            tweetList.add(currentSet.size());
-            time += freqSeconds;
+        int count = 0;
+        for (int current: userRecords.subSet(startTime, true, endTime, true)) {
+            length = (current - startTime) / freqSeconds;
+            for (int i = tweetList.size(); i < length; i++) {
+                tweetList.add(count);
+                count = 0;
+            }
+            count ++;
+        }
+        length = (endTime - startTime) / freqSeconds + 1;
+        for (int i = tweetList.size(); i < length; i ++) {
+            tweetList.add(count);
+            count = 0;
         }
         return tweetList;
     }
